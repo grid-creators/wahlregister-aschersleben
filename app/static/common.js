@@ -34,8 +34,10 @@ function sexBadge(g) {
   return '';
 }
 
-/* peru läuft auf demselben Host, Port 8765 — Link an die aufgerufene
-   Adresse anpassen, damit er auch von außerhalb funktioniert. */
-document.querySelectorAll('a.ext[href*="8765"]').forEach(a => {
-  a.href = `${location.protocol}//${location.hostname}:8765/`;
-});
+/* Der Link auf peru stand einmal auf `localhost:8765` und wurde hier an den
+   aufgerufenen Host angepasst — solange beide Apps auf demselben Server unter
+   ihrer IP zu erreichen waren, ging das auf. Mit den eigenen Subdomains nicht
+   mehr: die Umschreibung machte aus dem Aufruf über
+   wahlregister.grid-creators.com ein wahlregister.grid-creators.com:8765,
+   also den falschen Host auf einem Port, den der Proxy nicht bedient. peru hat
+   jetzt eine feste Adresse; sie steht in index.html, geraten wird nichts. */
