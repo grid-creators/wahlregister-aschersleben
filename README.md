@@ -5,7 +5,7 @@ FactGrid abgleichen und daraus eine QuickStatements-Tabelle erzeugen. Die
 Ordner 2 bis 6 gehören zu den Wahlen des Jahres 1933, Ordner 7 zur Wahl vom
 20. Mai 1928.
 
-    https://wahlregister.grid-creators.com/
+[https://wahlregister.grid-creators.com/](https://wahlregister.grid-creators.com/)
 
 Offen für alle: Entscheiden und Herunterladen brauchen keine Anmeldung und
 kein besonderes Recht.
