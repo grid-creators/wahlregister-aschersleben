@@ -216,7 +216,13 @@ harte Datumsausschluss verwirft — siehe oben.
 
 ## Server
 
-Die App läuft **öffentlich** als systemd-Dienst auf `http://185.162.251.195:8770/`.
+Die App läuft **öffentlich** als systemd-Dienst. Der Dienst selbst lauscht auf
+Port 8770; nach außen steht er zweimal: über
+`https://wahlregister.grid-creators.com/` hinter dem nginx-proxy-manager, und
+weiterhin unverschlüsselt unter `http://185.162.251.195:8770/` am Proxy vorbei.
+Wer TLS erzwingen will, schließt den Port nach außen — die Adresse mit dem Port
+steht aber in Notizen und Lesezeichen, sie fällt also nicht lautlos weg.
+
 Nicht mit `nohup` daneben starten — der Port ist belegt, und der Dienst startet
 sich nach `kill` selbst neu:
 

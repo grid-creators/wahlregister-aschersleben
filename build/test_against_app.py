@@ -479,7 +479,11 @@ check('unsinnige Q-ID wird abgewiesen', code == 400, code)
 
 print('Offener Zugang von außen')
 # Die App verlangt kein Recht: entscheiden und herunterladen geht ohne alles.
-PUB = os.environ.get('REGISTER_PUBLIC_URL', 'http://185.162.251.195:8770')
+# Geprüft wird über die Subdomain, weil Besucher diesen Weg nehmen. Der Port
+# 8770 antwortet daneben unverschlüsselt weiter; wer den Weg am Proxy vorbei
+# prüfen will, setzt REGISTER_PUBLIC_URL.
+PUB = os.environ.get('REGISTER_PUBLIC_URL',
+                     'https://wahlregister.grid-creators.com')
 try:
     with urllib.request.urlopen(PUB + '/api/liste?limit=1', timeout=10) as r:
         json.loads(r.read().decode())
