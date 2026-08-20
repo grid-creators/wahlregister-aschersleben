@@ -1,0 +1,141 @@
+/* wahlregister — gemeinsames Design-System aller Seiten.
+   Aufbau wie in peru/app/static/style.css: erst Tokens, dann App-Bar,
+   Karten, Felder, Buttons, Badges — Seiten-Spezifisches steht in seiten.css.
+   Eigene Akzentfarbe (Teal), damit die App auf den ersten Blick nicht mit
+   peru verwechselt wird; die Diagrammfarben sind davon unabhängig. */
+
+:root{
+  --bg:#f3f5f6;
+  --surface:#fff;
+  --surface-2:#f7f9f9;
+  --border:#e2e8e8;
+  --border-strong:#c7d2d2;
+  --text:#1f2d2d;
+  --text-2:#586868;
+  --text-3:#879797;
+  --dark:#123536;
+  --accent:#0f766e;
+  --accent-strong:#0b5b55;
+  --accent-soft:#e6f4f2;
+  --accent-border:#c3e3dd;
+  --ok:#1e7a35;     --ok-bg:#e3f4e8;     --ok-border:#c0e3cb;
+  --warn:#96620f;   --warn-bg:#fcf0da;   --warn-border:#efd7a8;
+  --danger:#9a2b38; --danger-bg:#f9e5e8; --danger-border:#efc6cc;
+  --info:#1d5aa0;   --info-bg:#e9f1fb;   --info-border:#cdddf2;
+  /* Diagramm-Slots (validiert gegen weiße Fläche, light) */
+  --series-1:#2a78d6;   /* Stimmabgabe 5.3.1933 */
+  --series-2:#eb6834;   /* Stimmabgabe 12.3.1933 */
+  --series-3:#1baf7a;   /* weiblich */
+  --series-4:#4a3aa7;   /* männlich */
+  --grid:#e8eded;
+  --radius:12px;
+  --radius-s:8px;
+  --shadow:0 1px 2px rgba(15,45,45,.05),0 2px 8px rgba(15,45,45,.05);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.5;font-size:15px}
+a{color:var(--accent)}
+code{background:#e9eeee;padding:1px 5px;border-radius:4px;font-size:.85em;font-family:var(--mono)}
+.muted{color:var(--text-2);font-size:.85rem}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- App-Bar ---------- */
+.appbar{background:linear-gradient(180deg,#17494a,#123536);color:#fff;position:sticky;top:0;z-index:50;
+  box-shadow:0 1px 3px rgba(10,30,30,.28)}
+.appbar-inner{max-width:1240px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:20px;
+  min-height:54px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;padding:8px 0}
+.brand .mark{display:grid;place-items:center;width:27px;height:27px;border-radius:8px;
+  background:linear-gradient(135deg,#2fa79b,#0f766e);font-weight:800;font-size:.95rem;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.brand .name{font-weight:700;font-size:1.02rem;letter-spacing:.01em}
+.brand .sub{color:#a5c2c0;font-size:.78rem;margin-left:2px}
+.nav{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-left:auto}
+.nav a{color:#bed3d1;text-decoration:none;font-size:.87rem;padding:6px 11px;border-radius:8px;line-height:1.2}
+.nav a:hover{color:#fff;background:rgba(255,255,255,.09)}
+.nav a.active{color:#fff;background:rgba(255,255,255,.15);font-weight:600}
+.nav a.ext{color:#8fa9a7}
+@media (max-width:760px){.brand .sub{display:none}}
+
+/* ---------- Container / Seitenkopf ---------- */
+.container{max-width:1240px;margin:0 auto;padding:26px 20px 64px}
+.container.narrow{max-width:920px}
+.pagehead{margin:2px 0 20px}
+.pagehead h1{margin:0 0 4px;font-size:1.45rem;color:var(--dark);letter-spacing:-.01em}
+.pagehead .hint{margin:0;color:var(--text-2);font-size:.9rem;max-width:82ch}
+
+/* ---------- Karte ---------- */
+.block{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 20px;margin-bottom:16px;box-shadow:var(--shadow)}
+.block h2{display:flex;align-items:center;gap:9px;margin:0 0 14px;font-size:.76rem;font-weight:700;
+  color:var(--text-3);text-transform:uppercase;letter-spacing:.09em}
+.block h2 .count{margin-left:auto;font-size:.8rem;color:var(--text-3);text-transform:none;letter-spacing:0}
+.block.flush{padding:0;overflow:hidden}
+
+/* ---------- Felder ---------- */
+.field{display:flex;flex-direction:column;gap:5px;font-size:.85rem;color:var(--text-2);margin-bottom:12px}
+.field:last-child{margin-bottom:0}
+.field>.lbl,.field .lblrow{font-weight:600;color:#33403f;font-size:.8rem}
+.field .lblrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.field input[type=text],.field input[type=search],.field select,textarea{
+  font:inherit;font-size:.95rem;color:var(--text);padding:8px 11px;border:1px solid var(--border-strong);
+  border-radius:var(--radius-s);background:var(--surface-2);width:100%;
+  transition:border-color .15s,background .15s,box-shadow .15s}
+.field input:focus,.field select:focus,textarea:focus{outline:none;border-color:var(--accent);
+  background:#fff;box-shadow:0 0 0 3px rgba(15,118,110,.16)}
+.field input::placeholder{color:#a1afaf}
+.check{font-size:.82rem;font-weight:400;color:var(--text-2);white-space:nowrap;cursor:pointer}
+.check input{vertical-align:-2px;margin-right:5px;accent-color:var(--accent)}
+.filterrow{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.filterrow .field{margin:0;flex:1 1 180px}
+.filterrow .field.tight{flex:0 0 auto;min-width:150px}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-size:.88rem;
+  padding:7px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-s);
+  background:var(--surface);color:var(--text);cursor:pointer;text-decoration:none;
+  transition:background .12s,border-color .12s}
+.btn:hover{background:var(--surface-2);border-color:#aebcbc}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.btn.primary:hover{background:var(--accent-strong);border-color:var(--accent-strong)}
+.btn.small{padding:4px 10px;font-size:.8rem}
+.btn.on{background:var(--accent-soft);border-color:var(--accent-border);color:var(--accent-strong);font-weight:600}
+.btn:disabled{opacity:.5;cursor:default}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ---------- Badges ---------- */
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.72rem;font-weight:600;
+  line-height:1.5;white-space:nowrap;border:1px solid transparent;vertical-align:middle}
+.badge.hoch{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok)}
+.badge.mittel{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn)}
+.badge.niedrig{background:#eef1f1;border-color:var(--border-strong);color:var(--text-2)}
+.badge.ident{background:var(--info-bg);border-color:var(--info-border);color:var(--info)}
+.badge.w{background:#e7f6f1;border-color:#bfe6da;color:#0d6b57}
+.badge.m{background:#eceafa;border-color:#cdc7ee;color:#4a3aa7}
+.badge.ja{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok)}
+.badge.nein{background:#f1f3f3;border-color:var(--border-strong);color:var(--text-3)}
+.badge.bestaetigt{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok)}
+.badge.verworfen{background:var(--danger-bg);border-color:var(--danger-border);color:var(--danger)}
+.pill{background:var(--accent-soft);border:1px solid var(--accent-border);color:var(--dark);
+  padding:3px 10px;border-radius:20px;font-size:.78rem;display:inline-block}
+
+/* ---------- Status ---------- */
+.status{font-size:.85rem;color:var(--text-3)}
+.status.loading{color:var(--accent)}
+.status.error{color:#c0392b}
+.empty{color:var(--text-3);font-style:italic;padding:14px 2px}
+
+/* ---------- Tabellen ---------- */
+table.grid{width:100%;border-collapse:collapse;font-size:.88rem}
+table.grid th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--text-3);font-weight:700;padding:9px 10px;border-bottom:1px solid var(--border);
+  position:sticky;top:54px;background:var(--surface);z-index:2}
+table.grid td{padding:8px 10px;border-bottom:1px solid #f0f3f3;vertical-align:top}
+table.grid tbody tr:hover{background:var(--surface-2)}
+table.grid tbody tr.sel{background:var(--accent-soft)}
+table.grid tr.clickable{cursor:pointer}
+table.grid td.r,table.grid th.r{text-align:right}

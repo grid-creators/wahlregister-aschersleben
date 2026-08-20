@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Wahlregister Aschersleben 1928/1933 — Abgleich mit FactGrid</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f766e'/%3E%3Ctext x='16' y='22.5' font-family='sans-serif' font-size='17' font-weight='700' fill='%23fff' text-anchor='middle'%3EW%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/seiten.css">
+</head>
+<body>
+
+<header class="appbar">
+  <div class="appbar-inner">
+    <a class="brand" href="/">
+      <span class="mark">W</span>
+      <span class="name">wahlregister</span>
+      <span class="sub">Aschersleben&nbsp;1928/1933 &rarr; FactGrid</span>
+    </a>
+    <div class="nav">
+      <span id="fortschritt" class="progress"></span>
+      <a class="ext" href="http://localhost:8765/" target="_blank" rel="noopener">peru&nbsp;&nearr;</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="pagehead">
+    <h1>Abgleich</h1>
+    <p class="hint">Für jeden Eintrag: den passenden FactGrid-Kandidaten wählen —
+      oder festhalten, dass es dort keine solche Person gibt. Verglichen wird
+      unscharf über <b>Vorname, Nachname, Geburtsdatum</b> und <b>Adresse</b>.
+      Aus den Entscheidungen entsteht unten die QuickStatements-Tabelle.</p>
+    <p class="hint">Die Ordner&nbsp;2 bis&nbsp;5 gehören zur Reichstagswahl vom
+      5.3.1933, Ordner&nbsp;6 zur Wahl und Volksabstimmung vom 12.11.1933,
+      Ordner&nbsp;7 zur Wählerliste von <b>1928</b>. Weil dieselben Menschen
+      mehrfach wählen durften, steht mancher zweimal im Register — wo das
+      zutrifft, zeigt der Eintrag es an („Derselbe Mensch im Register"), damit
+      niemand zweimal dieselbe Person neu anlegt.</p>
+    <div class="bearbeiterzeile">
+      <label for="bearbeiter">Bearbeiter/in</label>
+      <input type="text" id="bearbeiter" maxlength="60" placeholder="Name oder Kürzel">
+      <span class="muted">freiwillig — steht dann im Verlauf, damit
+        nachvollziehbar bleibt, wer was entschieden hat. Es gibt keine Anmeldung.</span>
+    </div>
+  </div>
+
+  <section class="block">
+    <div class="filterrow">
+      <label class="field"><span class="lbl">Suche</span>
+        <input type="search" id="q" placeholder="Name, Adresse, Bemerkung"></label>
+      <label class="field tight"
+             title="Ordner des Bestands I-14-149 — jeder hat eigene Straßen, eigene Adressitems und eine eigene Primärquelle">
+        <span class="lbl">Ordner</span>
+        <select id="ordner"><option value="">alle</option></select></label>
+      <label class="field tight"><span class="lbl">Straße</span>
+        <select id="strasse"><option value="">alle</option></select></label>
+      <label class="field tight"><span class="lbl">Stand</span>
+        <select id="status">
+          <option value="offen">offen</option>
+          <option value="">alle</option>
+          <option value="entschieden">entschieden</option>
+          <option value="zugeordnet">zugeordnet</option>
+          <option value="kein_treffer">kein Treffer</option>
+        </select></label>
+      <label class="field tight"><span class="lbl">Vorschläge</span>
+        <select id="treffer">
+          <option value="">alle</option>
+          <option value="mit">mit Vorschlag</option>
+          <option value="sicher">sehr sicher (≥ 85)</option>
+          <option value="ohne">ohne Vorschlag</option>
+        </select></label>
+      <span class="status" id="status_txt"></span>
+    </div>
+    <div class="btnrow sammelzeile">
+      <button class="btn small" id="sammelBtn">alle offenen im Filter:
+        „keine Person in FactGrid"</button>
+      <span class="muted">Für die vielen Einträge, zu denen es in FactGrid
+        nichts gibt. Bereits Entschiedenes bleibt unberührt.</span>
+    </div>
+  </section>
+
+  <div id="liste"></div>
+  <div id="mehr" class="mehr"></div>
+
+  <section class="block" id="exportBlock">
+    <h2>Export <span class="count" id="exportOrdner"></span></h2>
+    <p class="muted" id="exportInfo">—</p>
+    <div class="btnrow">
+      <a class="btn primary" id="qsLink" href="/export/quickstatements.txt">QuickStatements herunterladen</a>
+      <button class="btn" id="vorschauBtn">Vorschau ansehen</button>
+      <a class="btn" id="csvLink" href="/export/entscheidungen.csv">Entscheidungen als CSV</a>
+    </div>
+    <div id="quellenWarnung"></div>
+    <pre id="vorschau" class="vorschau" hidden></pre>
+
+    <details style="margin-top:16px">
+      <summary class="muted">Kontext-Items des Exports</summary>
+      <p class="muted" style="margin:10px 0">Vorbelegt nach dem Muster von
+        <a href="https://database.factgrid.de/wiki/Item:Q1257714" target="_blank"
+           rel="noopener">Q1257714</a> (ein Eintrag aus Ordner&nbsp;1 desselben
+        Bestands). Die Primärquelle steht <b>je Ordner</b>: jeder Ordner des
+        Bestands I-14-149 ist ein eigenes Archivale mit eigenem Item. Auch die
+        <b>Wahl</b> steht je Ordner, denn nicht alle gehören zur selben:
+        Ordner&nbsp;2 bis&nbsp;5 haken drei Spalten der Akte ab und meinen
+        damit drei Wahlen des Jahres 1933, Ordner&nbsp;6 gehört zur
+        Reichstagswahl und Volksabstimmung vom <b>12.11.1933</b>, Ordner&nbsp;7
+        ist die Wählerliste von <b>1928</b> — dort belegt der eine Haken zwei
+        Wahlen, weil Reichstag und Preußischer Landtag am 20.5.1928 am selben
+        Tag gewählt wurden. Mit dem Ordner wechselt auch das Jahr an Ort und
+        Adresse (P106) und in der Beschreibung. Eine P119 entsteht nur dort, wo
+        die Spalte einen Vermerk trägt — Haken und Kreuz zählen gleich, das
+        leere Feld heißt „nicht teilgenommen", und der Stimmschein-Vermerk
+        „St." aus Ordner&nbsp;6 zählt nicht als Teilnahme. Jede Teilnahme trägt
+        die Rolle als Qualifikator (P277).</p>
+      <div class="filterrow" id="einstellungen">
+        <label class="field tight"><span class="lbl">P83 Ort</span>
+          <input type="text" id="qs_ort"></label>
+        <span id="quellenFelder" style="display:contents"></span>
+        <label class="field tight"
+               title="Spalte 4 der Akte — vorbelegt: Deutsche Reichstagswahl">
+          <span class="lbl">P119 Spalte 4</span>
+          <input type="text" id="qs_wahl_sp4"></label>
+        <label class="field tight"
+               title="Spalte 5 der Akte — vorbelegt: Stadtverordnetenversammlung Aschersleben">
+          <span class="lbl">P119 Spalte 5</span>
+          <input type="text" id="qs_wahl_sp5"></label>
+        <label class="field tight"
+               title="Spalte 8 der Akte — vorbelegt: Provinziallandtag der Provinz Sachsen">
+          <span class="lbl">P119 Spalte 8</span>
+          <input type="text" id="qs_wahl_sp8"></label>
+        <label class="field tight"
+               title="Ordner 6 hat nur eine Stimmabgabe-Spalte — vorbelegt: Reichstagswahl und Volksabstimmung vom 12.11.1933">
+          <span class="lbl">P119 Ordner 6</span>
+          <input type="text" id="qs_wahl_o6"></label>
+        <label class="field tight"
+               title="Ordner 7 ist die Wählerliste von 1928. Der eine Haken belegt zwei Wahlen, weil beide am 20.5.1928 stattfanden — vorbelegt: Reichstagswahl">
+          <span class="lbl">P119 Ordner 7 · Reichstag</span>
+          <input type="text" id="qs_wahl_o7_reichstag"></label>
+        <label class="field tight"
+               title="Zweite Wahl desselben Tages — vorbelegt: Preußischer Landtag, 20.5.1928. Leer lassen heißt: nur die Reichstagswahl.">
+          <span class="lbl">P119 Ordner 7 · Landtag</span>
+          <input type="text" id="qs_wahl_o7_landtag"></label>
+        <label class="field tight"
+               title="Rolle bei jeder Teilnahme — vorbelegt: Wahlberechtigte(r) (Q1207476). Leer lassen heißt: kein P277.">
+          <span class="lbl">P277 Rolle</span>
+          <input type="text" id="qs_rolle"></label>
+        <label class="field tight"><span class="lbl">P131 Projekt</span>
+          <input type="text" id="qs_projekt"></label>
+        <label class="field tight"
+               title="Akademischer Grad zum „Dr." vor dem Vornamen">
+          <span class="lbl">P170 Titel</span>
+          <input type="text" id="qs_titel"></label>
+        <label class="field tight"><span class="lbl">Dde Beschreibung</span>
+          <select id="qs_beschreibung"><option value="ja">ja</option>
+            <option value="nein">nein</option></select></label>
+        <label class="field tight"
+               title="Englisches Label zusätzlich zum deutschen — gleicher Name, nur „(geb. …)" wird zu „(nee …)". Nur bei neu angelegten Personen.">
+          <span class="lbl">Len englisch</span>
+          <select id="qs_label_en"><option value="ja">ja</option>
+            <option value="nein">nein</option></select></label>
+        <label class="field tight"><span class="lbl">P154 Geschlecht</span>
+          <select id="qs_geschlecht"><option value="ja">ja (geschätzt)</option>
+            <option value="nein">nein</option></select></label>
+        <button class="btn" id="speichernBtn">speichern</button>
+        <span class="status" id="einst_status"></span>
+      </div>
+      <p class="warn" style="margin-top:12px">⚠ Vor dem Import prüfen: die
+        FactGrid-Items
+        <a href="https://database.factgrid.de/wiki/Item:Q1214187" target="_blank"
+           rel="noopener">Q1214187</a> und
+        <a href="https://database.factgrid.de/wiki/Item:Q1214186" target="_blank"
+           rel="noopener">Q1214186</a> datieren beide auf den
+        <b>5. März 1933</b>; die Bemerkungen dieses Registers nennen dagegen
+        durchweg den <b>12. März 1933</b> („am 12.3.33 noch nicht 6 Mon.
+        Wohnsitz"). Welche Spalte welche Wahl meint, ist aus dem Muster von
+        Ordner&nbsp;1 erschlossen, nicht aus der Akte belegt. Ordner&nbsp;3,
+        4 und&nbsp;5 führen zusätzlich die Aktenspalten&nbsp;6, 7 und&nbsp;9 —
+        dort steht in <b>keiner</b> Zeile ein Vermerk; sie sind erfasst, aber
+        keiner Wahl zugeordnet und gehen nicht in den Export. Für
+        Ordner&nbsp;6 und&nbsp;7 gilt das nicht: die beiden haben nur eine
+        Stimmabgabe-Spalte, und welche Wahl sie meint, steht im Archivale.</p>
+    </details>
+  </section>
+
+  <section class="block" id="protokollBlock">
+    <h2>Verlauf <span class="count" id="protokollCount"></span></h2>
+    <p class="muted">Jede Änderung an einer Entscheidung wird festgehalten — mit
+      dem Stand davor. Nichts geht dadurch verloren, auch wenn sich zwei Leute
+      gegenseitig überschreiben. Wie der Export folgt der Verlauf dem
+      <b>Ordner</b> oben.</p>
+    <div class="filterrow">
+      <label class="field tight"><span class="lbl">nur Eintrag Nr.</span>
+        <input type="search" id="p_lfd" placeholder="z. B. 0260"></label>
+      <button class="btn small" id="p_neu">aktualisieren</button>
+      <a class="btn small" id="protokollLink" href="/export/protokoll.csv">Protokoll als CSV</a>
+    </div>
+    <div id="stapelListe"></div>
+    <div class="tabellewrap"><table class="grid" id="protokollTabelle"></table></div>
+  </section>
+
+</main>
+
+<script src="/static/common.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+/* Seiten-Spezifisches der Arbeitsliste. Nutzt nur Tokens aus style.css. */
+
+/* ---------- Fortschritt in der App-Bar ---------- */
+.progress{display:flex;align-items:center;gap:9px;color:#cfe0de;font-size:.83rem;
+  white-space:nowrap}
+.progress .bar{display:block;width:150px;height:7px;border-radius:4px;
+  background:rgba(255,255,255,.18);overflow:hidden}
+.progress .bar i{display:block;height:100%;background:#4fd1c5;border-radius:4px;
+  transition:width .3s}
+@media (max-width:700px){.progress .bar{width:70px}}
+
+/* ---------- Eintrag: Quelle links, Kandidaten rechts ---------- */
+.zeile{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:20px;
+  align-items:start}
+@media (max-width:900px){.zeile{grid-template-columns:1fr}}
+
+.eintrag{padding:16px 18px}
+.eintrag.fertig{border-color:var(--accent-border);background:#fbfefd}
+.quelle .name{font-size:1.05rem;font-weight:600;color:var(--dark);
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.quelle .meta{font-size:.85rem;color:var(--text-2);margin-top:3px;line-height:1.55}
+.quelle .bem{font-size:.85rem;color:var(--warn);background:var(--warn-bg);
+  border:1px solid var(--warn-border);border-radius:var(--radius-s);
+  padding:5px 9px;margin-top:8px}
+.quelle .acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}
+.pill{font-family:var(--mono);font-size:.75rem;text-decoration:none}
+
+/* Die drei Wahlspalten der Akte. Grün = Vermerk (geht als P119 mit),
+   grau = leeres Feld, gelb = unlesbarer Vermerk. */
+.wahlzeile{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.wahl{font-size:.76rem;padding:2px 8px;border-radius:20px;border:1px solid;
+  white-space:nowrap;cursor:default}
+.wahl.ja{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok)}
+.wahl.nein{background:#f1f3f3;border-color:var(--border-strong);color:var(--text-3)}
+.wahl.unklar{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn)}
+
+/* ---------- Kandidat ---------- */
+.kand{border:1px solid var(--border);border-radius:var(--radius-s);
+  padding:9px 12px;margin-bottom:8px;background:var(--surface-2)}
+.kand:last-child{margin-bottom:0}
+.kand.gewaehlt{border-color:var(--ok-border);background:var(--ok-bg)}
+.kand .kopf{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.kand .lab{font-weight:600;color:var(--dark);text-decoration:none}
+.kand .lab:hover{text-decoration:underline}
+.kand .qid{font-family:var(--mono);font-size:.76rem;color:var(--text-3)}
+.kand .meta{font-size:.82rem;color:var(--text-2);margin-top:2px}
+.kand .warn{font-size:.8rem;color:var(--danger);margin-top:4px}
+.kand .acts{margin-top:8px}
+
+.score{display:inline-grid;place-items:center;min-width:34px;height:22px;padding:0 6px;
+  border-radius:6px;font-size:.8rem;font-weight:700;font-variant-numeric:tabular-nums;
+  border:1px solid transparent}
+.score.hoch{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok)}
+.score.mittel{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn)}
+.score.niedrig{background:#eef1f1;border-color:var(--border-strong);color:var(--text-2)}
+
+/* Teilscores: vier schmale Balken, damit die Grundlage des Scores sichtbar ist */
+.tsrow{display:flex;gap:8px;margin-top:7px;flex-wrap:wrap}
+.ts{display:flex;flex-direction:column;gap:2px;width:74px}
+.ts i{display:block;height:4px;border-radius:2px;background:var(--accent);
+  min-width:2px}
+.ts b{font-size:.66rem;font-weight:600;color:var(--text-3);text-transform:uppercase;
+  letter-spacing:.05em}
+.ts::before{content:'';display:block;height:4px;border-radius:2px;background:var(--grid);
+  margin-bottom:-4px;width:100%}
+
+.mehr{margin:4px 0 20px;display:flex;align-items:center;gap:10px}
+
+/* ---------- Export ---------- */
+.vorschau{background:#10302f;color:#d7ece9;padding:14px 16px;border-radius:var(--radius-s);
+  overflow:auto;max-height:380px;font-family:var(--mono);font-size:.78rem;
+  line-height:1.55;margin-top:14px;white-space:pre}
+
+/* ---------- Zuordnung von Hand ---------- */
+.manuell{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.manuell input{font:inherit;font-size:.85rem;padding:5px 9px;flex:1 1 210px;
+  border:1px solid var(--border-strong);border-radius:var(--radius-s);
+  background:var(--surface-2);font-family:var(--mono)}
+.manuell input:focus{outline:none;border-color:var(--accent);background:#fff;
+  box-shadow:0 0 0 3px rgba(15,118,110,.16)}
+.qidinfo{flex:1 1 100%}
+.qidinfo:empty{display:none}
+
+/* P120 „Möglicherweise identisch mit" — bewusst leiser als das Zuordnen
+   daneben: es ist ein Verdacht, keine Entscheidung. */
+.p120zeile{margin-top:6px}
+.p120lbl{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;
+  padding:3px 6px;border-radius:var(--radius-s);background:var(--surface-2);
+  border:1px solid var(--border-strong);color:var(--text-2);cursor:help}
+.p120info{flex:1 1 100%}
+.p120info:empty{display:none}
+.p120stand{font-size:.85rem;margin-top:6px;padding:5px 9px;
+  border-radius:var(--radius-s);background:var(--surface-2);
+  border:1px dashed var(--border-strong)}
+
+/* Derselbe Mensch in einem anderen Ordner — seit Ordner 6 und 7 der
+   Regelfall, weil die beiden zu anderen Wahlen gehören. */
+.doubletten{margin-top:8px;padding:8px 11px;border-radius:var(--radius-s);
+  background:var(--surface-2);border:1px solid var(--border-strong)}
+.doubletten .dtitel{font-size:.76rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:.04em;color:var(--text-3);margin-bottom:6px}
+.doublette{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;
+  font-size:.85rem;padding:5px 0;border-top:1px solid var(--border)}
+.doublette:first-of-type{border-top:none}
+.doublette .wer{color:var(--text-2)}
+.doublette .grund{font-size:.78rem}
+.doublette .stand{flex:1 1 100%;display:flex;align-items:center;gap:8px;
+  flex-wrap:wrap;margin-top:2px}
+.doublette .stand .warn{color:var(--danger)}
+.doublette .qid{font-family:var(--mono);font-size:.76rem;color:var(--text-3)}
+
+.suchbox{border:1px dashed var(--border-strong);border-radius:var(--radius-s);
+  padding:10px 12px;margin-bottom:10px;background:var(--surface-2)}
+.suchbox input{font:inherit;font-size:.88rem;padding:6px 10px;width:min(100%,320px);
+  border:1px solid var(--border-strong);border-radius:var(--radius-s);background:#fff}
+.suchbox .suchergebnis{margin-top:10px}
+.suchbox .suchergebnis:empty{display:none}
+.kand.fund{background:#fff;border-style:dashed}
+
+.zugeteilt{font-size:.85rem;margin-top:8px;padding:6px 9px;border-radius:var(--radius-s);
+  background:var(--ok-bg);border:1px solid var(--ok-border);color:#14532d}
+.zugeteilt .qid{font-family:var(--mono);font-size:.76rem;color:var(--text-2)}
+
+.sammelzeile{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);
+  align-items:center}
+.progress .rest{color:#8fb8b4}
+
+/* ---------- Bearbeiter/in ---------- */
+.bearbeiterzeile{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:12px;
+  font-size:.85rem;color:var(--text-2)}
+.bearbeiterzeile label{font-weight:600;color:#33403f;font-size:.8rem}
+.bearbeiterzeile input{font:inherit;font-size:.88rem;padding:5px 10px;width:200px;
+  border:1px solid var(--border-strong);border-radius:var(--radius-s);
+  background:var(--surface-2)}
+.bearbeiterzeile input:focus{outline:none;border-color:var(--accent);background:#fff;
+  box-shadow:0 0 0 3px rgba(15,118,110,.16)}
+.bearbeiterzeile .muted{flex:1 1 260px}
+
+/* ---------- Verlauf ---------- */
+#protokollBlock .tabellewrap{max-height:420px;overflow:auto;margin-top:12px}
+#protokollBlock table.grid th{top:0}
+#protokollBlock .qid{font-family:var(--mono);font-size:.76rem;color:var(--text-3)}
+.stapel{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.stapelzeile{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:.85rem;
+  color:var(--text-2);background:var(--surface-2);border:1px solid var(--border);
+  border-radius:var(--radius-s);padding:7px 11px}
+.stapelzeile b{color:var(--dark)}
+.stapelzeile .btn{margin-left:auto}

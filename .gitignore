@@ -1,0 +1,18 @@
+# Daten bleiben draußen — das Repo hält Code und Dokumentation.
+#
+# Die Quell-CSVs des Bestands I-14-149 und die Datenbanken liegen auf dem
+# Server. `persons.sqlite` ist mit ~500 MB ohnehin zu groß für GitHub,
+# `register.sqlite` hält die Entscheidungen von Hand und ändert sich laufend.
+data/*
+!data/.gitkeep
+*.sqlite
+*.sqlite.bak-*
+*.sqlite.vor-*
+wahlregister*.csv
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Lokale Claude-Code-Einstellungen (CLAUDE.md gehört dagegen dazu)
+.claude/settings.local.json
