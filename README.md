@@ -5,7 +5,7 @@ FactGrid abgleichen und daraus eine QuickStatements-Tabelle erzeugen. Die
 Ordner 2 bis 6 gehören zu den Wahlen des Jahres 1933, Ordner 7 zur Wahl vom
 20. Mai 1928.
 
-    http://185.162.251.195:8770/
+    https://wahlregister.grid-creators.com/
 
 Offen für alle: Entscheiden und Herunterladen brauchen keine Anmeldung und
 kein besonderes Recht.
@@ -346,6 +346,9 @@ wo jemand freiwillig einen Namen einträgt; *was wann* passiert ist, hält der
 Verlauf dagegen lückenlos fest. Der Arbeitsstand lässt sich über
 `entscheidungen.csv` und `protokoll.csv` sichern.
 
-Zwei Einschränkungen des Betriebs auf `http://IP:Port`: **kein TLS** und Flasks
-eingebauter Server ist kein produktiver WSGI-Server. Eine Subdomain hinter dem
-nginx-proxy-manager — wie `peru.grid-creators.com` — würde beides beheben.
+Die Subdomain hinter dem nginx-proxy-manager hat den fehlenden TLS behoben:
+`https://wahlregister.grid-creators.com/` ist verschlüsselt. Zwei Dinge bleiben.
+Flasks eingebauter Server ist weiterhin kein produktiver WSGI-Server, der Proxy
+ändert daran nichts. Und der alte Weg steht offen: `http://185.162.251.195:8770/`
+antwortet unverschlüsselt am Proxy vorbei — wer TLS erzwingen will, schließt den
+Port nach außen.
